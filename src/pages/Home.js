@@ -3,6 +3,7 @@ import { Canvas } from 'react-three-fiber';
 import { RecoilRoot } from 'recoil';
 import OrbitControlsCustom from '../components/controls/OrbitControlsCustom';
 import ArWing from '../components/3d/ArWing';
+import Ocean from '../components/3d/Ocean';
 
 
 const Loading = () => {
@@ -30,6 +31,7 @@ const Home = () => {
                 <directionalLight intensity={0.5} />
                 <Suspense fallback={<Loading />}>
                     <ArWing />
+                    <Ocean />
                 </Suspense>
                 <OrbitControlsCustom />
             </RecoilRoot>
