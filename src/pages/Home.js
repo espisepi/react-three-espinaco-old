@@ -4,6 +4,7 @@ import { RecoilRoot } from 'recoil';
 import OrbitControlsCustom from '../components/controls/OrbitControlsCustom';
 import ArWing from '../components/3d/ArWing';
 import Ocean from '../components/3d/Ocean';
+import FireCustom from '../components/3d/FireCustom';
 
 
 const Loading = () => {
@@ -32,6 +33,7 @@ const Home = () => {
                 <Suspense fallback={<Loading />}>
                     <ArWing />
                     <Ocean />
+                    <FireCustom />
                 </Suspense>
                 <OrbitControlsCustom />
             </RecoilRoot>
