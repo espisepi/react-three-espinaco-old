@@ -6,6 +6,8 @@ import ArWing from '../components/3d/ArWing';
 import Ocean from '../components/3d/Ocean';
 import FireCustom from '../components/3d/FireCustom';
 import Stars from '../components/3d/Stars';
+import Sprite from '../components/3d/Sprite';
+// import foto from './assets/foto.png';
 
 
 const Loading = () => {
@@ -32,10 +34,11 @@ const Home = () => {
             <RecoilRoot>
                 <directionalLight intensity={0.5} />
                 <Suspense fallback={<Loading />}>
-                    <ArWing />
+                    {/* <ArWing /> */}
                     <Ocean />
                     <FireCustom />
                     <Stars />
+                    <Sprite url='assets/foto.png' position={[0,1.5,0]} scale={[5, 3, 1]} />
                 </Suspense>
                 <OrbitControlsCustom />
             </RecoilRoot>
