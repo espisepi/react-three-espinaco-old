@@ -1,4 +1,4 @@
-import React, { Suspense, useRef } from 'react';
+import React, { Suspense, useRef, useEffect, useMemo, useState } from 'react';
 import { Canvas } from 'react-three-fiber';
 import { RecoilRoot } from 'recoil';
 import OrbitControlsCustom from '../components/controls/OrbitControlsCustom';
@@ -8,6 +8,7 @@ import FireCustom from '../components/3d/FireCustom';
 import Stars from '../components/3d/Stars';
 import Sprite from '../components/3d/Sprite';
 import Plane from '../components/3d/Plane';
+import AudioVisualizer from '../components/3d/AudioVisualizer';
 
 
 const Loading = () => {
@@ -26,26 +27,47 @@ const Loading = () => {
       );
 }
 
-
+const Clip0 = () => {
+  return(
+    <Canvas style={{width:"100%", height:"100vh"}}>
+      <RecoilRoot>
+          <directionalLight intensity={0.5} />
+          <ambientLight />
+          <Suspense fallback={<Loading />}>
+              {/* <ArWing /> */}
+              <Ocean />
+              <FireCustom />
+              <Stars />
+              <Sprite url='assets/foto.png' position={[0,1.5,0]} scale={[5, 3, 1]} />
+              <Plane position={[0,-0.1,0]}/>
+              {/* <AudioVisualizer /> */}
+          </Suspense>
+          <OrbitControlsCustom />
+      </RecoilRoot>
+    </Canvas>
+  );
+};
 
 const Home = () => {
-    return(
-        <Canvas style={{width:"100%", height:"100vh"}}>
-            <RecoilRoot>
-                <directionalLight intensity={0.5} />
-                <ambientLight />
-                <Suspense fallback={<Loading />}>
-                    {/* <ArWing /> */}
-                    <Ocean />
-                    <FireCustom />
-                    <Stars />
-                    <Sprite url='assets/foto.png' position={[0,1.5,0]} scale={[5, 3, 1]} />
-                    <Plane position={[0,-0.1,0]}/>
-                </Suspense>
-                <OrbitControlsCustom />
-            </RecoilRoot>
-         </Canvas>
-    );
+  const [state, setState] = useState({
+    showComponent: false,
+  }); 
+  function loadClip(){
+    setState({
+      showComponent: true,
+    });
+    boton.current.style.display = 'none';
+  }
+  const boton = useRef();
+  return (
+    <>
+      <button ref={boton} onClick={loadClip} style={{zIndex:5}}>Click me!</button>
+      {state.showComponent ?
+           <Clip0 /> :
+           null
+        }
+    </>
+  );
 }
 
 export default Home;
