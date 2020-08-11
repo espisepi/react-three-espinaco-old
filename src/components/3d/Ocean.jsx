@@ -25,7 +25,7 @@ const Ocean = () => {
         //     metalness={0}
         //   />
         // </mesh>
-        <water ref={water} args={[new THREE.PlaneBufferGeometry( 10, 10),
+        <water ref={water} args={[new THREE.PlaneBufferGeometry( 5, 5),
             {
                 textureWidth: 512,
                 textureHeight: 512,

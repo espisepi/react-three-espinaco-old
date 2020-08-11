@@ -4,15 +4,14 @@ import { Fire } from 'three/examples/jsm/objects/Fire';
 import * as THREE from 'three';
 
 extend({Fire});
-const FireCustom = () => {
+const FireCustom = ({position, rotation}) => {
     const fire = useRef();
-    
+    position = position || new THREE.Vector3(0,0,0);
+    rotation = rotation || new THREE.Euler(1,1,1);
     useEffect(()=>{
         // fire.current.clearSources();
 		// fire.current.addSource( 0.5, 0.1, 0.1, 1.0, 0.0, 1.0 );
         // console.log(fire.current);
-        fire.current.position.y = 3;
-        fire.current.rotation.x += -0.75;
         var text = "joseangel";
         var size = 180;
         var color = "#FF0040";
@@ -39,7 +38,7 @@ const FireCustom = () => {
     });
     return (
         <fire ref={fire} args={[
-            new THREE.PlaneBufferGeometry( 5, 5 ),
+            new THREE.PlaneBufferGeometry( 1, 1 ),
             {
                 textureWidth: 512,
 				textureHeight: 512,
