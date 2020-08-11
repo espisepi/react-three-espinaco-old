@@ -5,6 +5,7 @@ import OrbitControlsCustom from '../components/controls/OrbitControlsCustom';
 import ArWing from '../components/3d/ArWing';
 import Ocean from '../components/3d/Ocean';
 import FireCustom from '../components/3d/FireCustom';
+import Stars from '../components/3d/Stars';
 
 
 const Loading = () => {
@@ -34,6 +35,7 @@ const Home = () => {
                     <ArWing />
                     <Ocean />
                     <FireCustom />
+                    <Stars />
                 </Suspense>
                 <OrbitControlsCustom />
             </RecoilRoot>
