@@ -1,9 +1,14 @@
-import React, { useMemo } from 'react';
-import { extend, useThree, useFrame } from 'react-three-fiber';
-import { Fire } from 'three/examples/jsm/objects/Fire';
+import React, { useMemo, useRef } from 'react';
+import { useFrame } from 'react-three-fiber';
 import * as THREE from 'three';
 
 const Stars = ({ count = 5000 }) => {
+    const points = useRef();
+    let theta = 0;
+    useFrame(()=>{
+      const r = 1 * Math.sin(THREE.Math.degToRad((theta += 0.1)))
+      points.current.rotation.set(r, 0, 0)
+    });
     const positions = useMemo(() => {
         let positions = []
         for (let i = 0; i < count; i++) {
@@ -14,7 +19,7 @@ const Stars = ({ count = 5000 }) => {
         return new Float32Array(positions)
       }, [count])
       return (
-        <points>
+        <points ref={points}>
           <bufferGeometry attach="geometry">
             <bufferAttribute
               attachObject={['attributes', 'position']}
