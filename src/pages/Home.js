@@ -40,7 +40,7 @@ const Home = () => {
                     <FireCustom />
                     <Stars />
                     <Sprite url='assets/foto.png' position={[0,1.5,0]} scale={[5, 3, 1]} />
-                    <Plane />
+                    <Plane position={[0,-0.1,0]}/>
                 </Suspense>
                 <OrbitControlsCustom />
             </RecoilRoot>

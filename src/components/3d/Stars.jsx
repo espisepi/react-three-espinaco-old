@@ -6,8 +6,7 @@ const Stars = ({ count = 5000 }) => {
     const points = useRef();
     let theta = 0;
     useFrame(()=>{
-      const r = 1 * Math.sin(THREE.Math.degToRad((theta += 0.1)))
-      points.current.rotation.set(r, 0, 0)
+      points.current.rotation.set(theta += 0.001, 0, 0);
     });
     const positions = useMemo(() => {
         let positions = []

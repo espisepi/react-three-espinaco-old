@@ -9,10 +9,13 @@ const FireCustom = ({position, rotation}) => {
     position = position || new THREE.Vector3(0,0,0);
     rotation = rotation || new THREE.Euler(1,1,1);
     useEffect(()=>{
+        fire.current.material.side = THREE.DoubleSide;
+    });
+    useEffect(()=>{
         // fire.current.clearSources();
 		// fire.current.addSource( 0.5, 0.1, 0.1, 1.0, 0.0, 1.0 );
         // console.log(fire.current);
-        var text = "joseangel";
+        var text = "O";
         var size = 180;
         var color = "#FF0040";
         var canvas = document.createElement( "canvas" );
@@ -41,7 +44,7 @@ const FireCustom = ({position, rotation}) => {
             new THREE.PlaneBufferGeometry( 1, 1 ),
             {
                 textureWidth: 512,
-				textureHeight: 512,
+                textureHeight: 512,
 				debug: false
             }
         ]} />
