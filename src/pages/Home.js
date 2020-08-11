@@ -7,7 +7,7 @@ import Ocean from '../components/3d/Ocean';
 import FireCustom from '../components/3d/FireCustom';
 import Stars from '../components/3d/Stars';
 import Sprite from '../components/3d/Sprite';
-// import foto from './assets/foto.png';
+import Plane from '../components/3d/Plane';
 
 
 const Loading = () => {
@@ -33,12 +33,14 @@ const Home = () => {
         <Canvas style={{width:"100%", height:"100vh"}}>
             <RecoilRoot>
                 <directionalLight intensity={0.5} />
+                <ambientLight />
                 <Suspense fallback={<Loading />}>
                     {/* <ArWing /> */}
                     <Ocean />
                     <FireCustom />
                     <Stars />
                     <Sprite url='assets/foto.png' position={[0,1.5,0]} scale={[5, 3, 1]} />
+                    <Plane />
                 </Suspense>
                 <OrbitControlsCustom />
             </RecoilRoot>
