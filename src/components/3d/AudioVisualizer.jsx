@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useMemo } from 'react';
 import * as THREE from 'three';
 import { useLoader, useFrame } from 'react-three-fiber';
 
@@ -11,6 +11,9 @@ const AudioVisualizer = ({audioSrc, mesh, img}) => {
         new THREE.PlaneBufferGeometry( 1, 1, 100, 100 ),
         new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, map: texture })
     );
+    mesh.position.set(-2, 2, 0);
+
+    
 
     const audioBuffer = useLoader(THREE.AudioLoader, audioSrc);
     const audioListener = new THREE.AudioListener();
@@ -18,7 +21,14 @@ const AudioVisualizer = ({audioSrc, mesh, img}) => {
     audio.setBuffer(audioBuffer);
     audio.setLoop(true);
     audio.setVolume(0.5);
-    audio.play();
+
+    /* 
+        Usamos el useMemo para que solo se ejecute el audio.play() una vez
+        y no cada vez que se re-renderize el componente.
+    */
+    useMemo(()=>{
+        audio.play();
+    },[]);
 
     const fftSize = 2048;
     const frequencyRange = {

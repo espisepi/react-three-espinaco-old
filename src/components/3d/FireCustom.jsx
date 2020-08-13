@@ -9,14 +9,17 @@ const FireCustom = ({position, rotation}) => {
     position = position || new THREE.Vector3(0,0,0);
     rotation = rotation || new THREE.Euler(1,1,1);
     useEffect(()=>{
+        fire.current.position.set(0.2,1.5,0.1);
+        // fire.current.position.set(0,2.05,0.1);
+        // fire.current.position.set(position.x,position.y,position.z);
         fire.current.material.side = THREE.DoubleSide;
     });
     useEffect(()=>{
         // fire.current.clearSources();
 		// fire.current.addSource( 0.5, 0.1, 0.1, 1.0, 0.0, 1.0 );
         // console.log(fire.current);
-        var text = "O";
-        var size = 180;
+        var text = "<~>";
+        var size = 140;
         var color = "#FF0040";
         var canvas = document.createElement( "canvas" );
         canvas.width = 1024;
@@ -31,6 +34,8 @@ const FireCustom = ({position, rotation}) => {
         context.lineWidth = 5;
         context.strokeStyle = color;
         context.fillStyle = "black";
+
+        context.rotate(0.1);
 
         context.strokeText( text, canvas.width / 2, canvas.height * 0.75 );
         var texture = new THREE.Texture( canvas );

@@ -40,7 +40,7 @@ const Clip0 = () => {
               <Stars />
               <Sprite url='assets/foto.png' position={[0,1.5,0]} scale={[5, 3, 1]} />
               <Plane position={[0,-0.1,0]}/>
-              {/* <AudioVisualizer /> */}
+              <AudioVisualizer />
           </Suspense>
           <OrbitControlsCustom />
       </RecoilRoot>
@@ -57,16 +57,20 @@ const Home = () => {
       showComponent: true,
     });
     boton.current.style.display = 'none';
+    // boton.current.style.visibility = 'hidden';
   }
   const boton = useRef();
   return (
-    <>
-      <button ref={boton} onClick={loadClip} style={{zIndex:5}}>Click me!</button>
+    <div style={{margin:'0px',padding:'0px'}}>
+    {/* <Clip0 /> */}
+      <button ref={boton} onClick={loadClip} style={{zIndex:5, display:'block', position:'relative', top:'50vh', left:'50%'}}>Click me!</button>
+      <div style={{width:"100%", height:"100vh", display:'block'}}>
       {state.showComponent ?
            <Clip0 /> :
            null
         }
-    </>
+      </div>
+    </div>
   );
 }
 
