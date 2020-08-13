@@ -1,8 +1,8 @@
 import React, { Suspense, useRef, useEffect, useMemo, useState } from 'react';
 import { Canvas } from 'react-three-fiber';
 import { RecoilRoot } from 'recoil';
+import Camera01 from '../components/cameras/Camera01';
 import OrbitControlsCustom from '../components/controls/OrbitControlsCustom';
-import ArWing from '../components/3d/ArWing';
 import Ocean from '../components/3d/Ocean';
 import FireCustom from '../components/3d/FireCustom';
 import Stars from '../components/3d/Stars';
@@ -33,8 +33,8 @@ const Clip0 = () => {
       <RecoilRoot>
           <directionalLight intensity={0.5} />
           <ambientLight />
+          <Camera01 position={[0, 2.5, 8]} />
           <Suspense fallback={<Loading />}>
-              {/* <ArWing /> */}
               <Ocean />
               <FireCustom />
               <Stars />
