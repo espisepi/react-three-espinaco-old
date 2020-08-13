@@ -11,7 +11,7 @@ const AudioVisualizer = ({audioSrc, mesh, img}) => {
         new THREE.PlaneBufferGeometry( 1, 1, 100, 100 ),
         new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, map: texture })
     );
-    mesh.position.set(-2, 2, 0);
+    mesh.position.set(-2, 2, -0.5);
 
     
 
@@ -42,33 +42,25 @@ const AudioVisualizer = ({audioSrc, mesh, img}) => {
 
     useFrame(()=>{
         const data = analyser.getFrequencyData();
-        // const bass = getFrequencyRangeValue(frequencyRange.bass, data);
+        const bass = getFrequencyRangeValue(frequencyRange.bass, data);
         // const mid = getFrequencyRangeValue(frequencyRange.mid, data);
-        const treble = getFrequencyRangeValue(frequencyRange.treble, data);
+        // const treble = getFrequencyRangeValue(frequencyRange.treble, data);
 
-        // console.log(treble);
         const arrayPosition = mesh.geometry.attributes.position.array;
         for(let i = 0; i < arrayPosition.length; i = i + 3 ){
             if( i % 2 ){
-                arrayPosition[i + 2] = treble + 0.5;
+                arrayPosition[i + 2] = bass + 0.1;
             }else{
                 // arrayPosition[i + 2] = mid * 1.5;
             }
         }
 
-        // const imageData = getImageData(mesh.material.map.image);
-        // if(imageData){
-        //     for(let i = 0; i < arrayPosition.length; i = i + 3 ){
-        //         const gray = (imageData.data[i] + imageData.data[i + 1] + imageData.data[i + 2]) / 3;
-        //         const threshold = 140;
-        //         console.log(gray);
-        //         if (gray < threshold) {
-        //             arrayPosition[i + 2] = ( gray / 256.0) * bass * 0.5;
-        //         } else {
-        //             arrayPosition[i + 2] = ( gray / 256.0) * mid * 1.5;
-        //         }
-        //     }
-        // }
+        /*
+            Codigo necesario para poder mover los vertices del mesh
+        */
+        mesh.geometry.attributes.position.needsUpdate = true;
+        mesh.geometry.computeVertexNormals();
+        mesh.geometry.computeFaceNormals();
         
     });
 
