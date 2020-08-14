@@ -38,7 +38,7 @@ const Clip0 = () => {
               <Ocean />
               <FireCustom />
               <Stars />
-              <Sprite url='assets/foto.png'  />
+              <Sprite url='assets/foto.png' position={[0,1.5,0]} scale={[5, 3, 1]} />
               <Plane position={[0,-0.1,0]}/>
               <AudioVisualizer />
           </Suspense>
