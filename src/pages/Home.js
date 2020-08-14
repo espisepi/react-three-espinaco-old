@@ -9,7 +9,8 @@ import Stars from '../components/3d/Stars';
 import Sprite from '../components/3d/Sprite';
 import Plane from '../components/3d/Plane';
 import AudioVisualizer from '../components/3d/AudioVisualizer';
-
+import DragControls from '../components/controls/DragControls';
+import CameraControlsCustom from '../components/controls/CameraControlsCustom';
 
 const Loading = () => {
     return (
@@ -33,7 +34,7 @@ const Clip0 = () => {
       <RecoilRoot>
           <directionalLight intensity={0.5} />
           <ambientLight />
-          <Camera01 position={[0, 2.5, 8]} />
+          <Camera01 position={[0, 1.5, 8]} />
           <Suspense fallback={<Loading />}>
               <Ocean />
               <FireCustom />
@@ -42,7 +43,8 @@ const Clip0 = () => {
               <Plane position={[0,-0.1,0]}/>
               <AudioVisualizer />
           </Suspense>
-          <OrbitControlsCustom />
+          {/* <OrbitControlsCustom /> */}
+          <DragControls />
       </RecoilRoot>
     </Canvas>
   );
