@@ -44,7 +44,7 @@ const Clip0 = () => {
               <AudioVisualizer />
           </Suspense>
           {/* <OrbitControlsCustom /> */}
-          <DragControls />
+          <DragControls dragY={false}/>
       </RecoilRoot>
     </Canvas>
   );

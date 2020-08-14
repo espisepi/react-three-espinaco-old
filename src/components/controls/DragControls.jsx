@@ -4,7 +4,7 @@ import * as THREE from "three";
 
 const PI_2 = Math.PI / 2;
 const DragControls = ({
-  position
+  dragY
 }) => {
   const { camera, gl } = useThree();
   const previousEvent = React.useRef();
@@ -29,7 +29,9 @@ const DragControls = ({
         const movementY = event.screenY - previousEvent.current.screenY;
         const direction = -1;
         yawObject.current.rotation.y += movementX * 0.002 * direction;
-        pitchObject.current.rotation.x += movementY * 0.002 * direction;
+        if(dragY === undefined || dragY === true){
+            pitchObject.current.rotation.x += movementY * 0.002 * direction;
+        }
         pitchObject.current.rotation.x = Math.max(
           -PI_2,
           Math.min(PI_2, pitchObject.current.rotation.x)
