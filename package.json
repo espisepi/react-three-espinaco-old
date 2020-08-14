@@ -11,6 +11,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "react-spring": "^9.0.0-rc.3",
     "react-three-fiber": "^4.2.18",
     "recoil": "^0.0.10",
     "styled-components": "^5.1.1",
