@@ -11,7 +11,7 @@ export function CubeShaderParams(analyser, fftSize) {
                 float f = texture2D( tAudioData, vec2( uv.x, 0 ) ).r;
 
                 vec3 newposition = vec3(position);
-                newposition.z += f + 0.5;
+                newposition.z += f * 0.5 + 0.5;
                 gl_Position = projectionMatrix * modelViewMatrix * vec4( newposition, 1.0 );
             }
         `,
@@ -21,7 +21,7 @@ export function CubeShaderParams(analyser, fftSize) {
 
             void main() {
                 float f = texture2D( tAudioData, vec2( vUv.x, 0.0 ) ).r;
-                gl_FragColor = vec4(f+0.2,0.0,f+0.2, 1.0);
+                gl_FragColor = vec4(f,0.0,0.0, 1.0);
             }
         `,
         uniforms: {
