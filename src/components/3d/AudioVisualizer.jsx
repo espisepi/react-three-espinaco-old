@@ -8,11 +8,11 @@ const AudioVisualizer = ({audioSrc, mesh, img}) => {
 
     const texture = new THREE.TextureLoader().load(img);
     mesh = mesh || new THREE.Mesh(
-        new THREE.PlaneBufferGeometry( 1, 1, 100, 100 ),
+        new THREE.PlaneBufferGeometry( 3, 3, 100, 100 ),
         new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, map: texture })
     );
-    mesh.position.set(-2, 2, -0.5);
-
+    mesh.position.set(7, 1.5, -7);
+    mesh.rotation.y += -1.0;
     
 
     const audioBuffer = useLoader(THREE.AudioLoader, audioSrc);
@@ -40,7 +40,7 @@ const AudioVisualizer = ({audioSrc, mesh, img}) => {
     };
     const analyser = new THREE.AudioAnalyser(audio, fftSize);
 
-    useFrame(()=>{
+    useFrame(({clock})=>{
         const data = analyser.getFrequencyData();
         const bass = getFrequencyRangeValue(frequencyRange.bass, data);
         // const mid = getFrequencyRangeValue(frequencyRange.mid, data);
@@ -61,6 +61,8 @@ const AudioVisualizer = ({audioSrc, mesh, img}) => {
         mesh.geometry.attributes.position.needsUpdate = true;
         mesh.geometry.computeVertexNormals();
         mesh.geometry.computeFaceNormals();
+
+        mesh.rotation.y = Math.sin(clock.elapsedTime/5) - 0.5 ;
         
     });
 

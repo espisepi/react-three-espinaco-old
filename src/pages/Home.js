@@ -43,9 +43,10 @@ const Clip0 = () => {
               <Sprite url='assets/foto.png' position={[0,1.5,0]} scale={[5, 3, 1]} />
               <Plane position={[0,-0.1,0]}/>
               <AudioVisualizerShader />
+              <AudioVisualizer />
           </Suspense>
-          <CameraControlsCustom />
-          {/* <DragControls dragY={false}/> */}
+          {/* <CameraControlsCustom /> */}
+          <DragControls dragY={false}/>
       </RecoilRoot>
     </Canvas>
   );

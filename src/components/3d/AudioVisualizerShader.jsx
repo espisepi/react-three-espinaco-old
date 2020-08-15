@@ -4,7 +4,7 @@ import { useLoader, useFrame } from 'react-three-fiber';
 import { PlaneShaderParams, CubeShaderParams } from './shaders/AudioShaders';
 
 const AudioVisualizerShader = ({audioSrc, img}) => {
-    audioSrc = audioSrc || 'assets/masna.mp3';
+    audioSrc = audioSrc || 'assets/highkili-imtheman.mp3';
     img = img || 'assets/highkili.png';  
 
     const audioBuffer = useLoader(THREE.AudioLoader, audioSrc);
