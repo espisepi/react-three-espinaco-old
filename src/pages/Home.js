@@ -11,6 +11,7 @@ import Plane from '../components/3d/Plane';
 import AudioVisualizer from '../components/3d/AudioVisualizer';
 import DragControls from '../components/controls/DragControls';
 import CameraControlsCustom from '../components/controls/CameraControlsCustom';
+import AudioVisualizerShader from '../components/3d/AudioVisualizerShader';
 
 const Loading = () => {
     return (
@@ -41,10 +42,10 @@ const Clip0 = () => {
               <Stars />
               <Sprite url='assets/foto.png' position={[0,1.5,0]} scale={[5, 3, 1]} />
               <Plane position={[0,-0.1,0]}/>
-              <AudioVisualizer />
+              <AudioVisualizerShader />
           </Suspense>
-          {/* <OrbitControlsCustom /> */}
-          <DragControls dragY={false}/>
+          <CameraControlsCustom />
+          {/* <DragControls dragY={false}/> */}
       </RecoilRoot>
     </Canvas>
   );
