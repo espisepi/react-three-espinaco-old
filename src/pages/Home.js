@@ -12,6 +12,7 @@ import AudioVisualizer from '../components/3d/AudioVisualizer';
 import DragControls from '../components/controls/DragControls';
 import CameraControlsCustom from '../components/controls/CameraControlsCustom';
 import AudioVisualizerShader from '../components/3d/AudioVisualizerShader';
+import PlaneTexture from '../components/3d/PlaneTexture';
 
 const Loading = () => {
     return (
@@ -44,6 +45,7 @@ const Clip0 = () => {
               <Plane position={[0,-0.1,0]}/>
               <AudioVisualizerShader />
               <AudioVisualizer />
+              <PlaneTexture />
           </Suspense>
           {/* <CameraControlsCustom /> */}
           <DragControls dragY={false}/>
