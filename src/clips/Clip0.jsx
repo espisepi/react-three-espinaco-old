@@ -1,5 +1,5 @@
 import React, { Suspense, useRef, useEffect, useMemo, useState } from 'react';
-import { Canvas, useFrame } from 'react-three-fiber';
+import { Canvas, useFrame, useLoader } from 'react-three-fiber';
 import { RecoilRoot } from 'recoil';
 import Camera01 from '../components/cameras/Camera01';
 import OrbitControlsCustom from '../components/controls/OrbitControlsCustom';
@@ -13,6 +13,7 @@ import DragControls from '../components/controls/DragControls';
 import CameraControlsCustom from '../components/controls/CameraControlsCustom';
 import AudioVisualizerShader from '../components/3d/AudioVisualizerShader';
 import PlaneTexture from '../components/3d/PlaneTexture';
+import * as THREE from 'three';
 
 const Loading = () => {
     return (
@@ -35,10 +36,21 @@ const GroupComponent = () => {
   useFrame(({clock})=>{
     if(!group.current.visible && clock.elapsedTime >= 39.0) group.current.visible = true;
   });
+
+  const audioSrc = 'assets/highkili-imtheman.mp3';
+  const audioBuffer = useLoader(THREE.AudioLoader, audioSrc);
+  const audioListener = useMemo(() => new THREE.AudioListener(),[]);
+  const audio = useMemo(() => new THREE.Audio(audioListener),[]);
+  useMemo(()=>{
+      audio.setBuffer(audioBuffer);
+      audio.setLoop(true);
+      audio.setVolume(0.5);
+      audio.play();
+  },[]);
  return(
    <>
-  <group ref={group} visible={false}>
-    <AudioVisualizerShader />
+  <group ref={group} visible={true}>
+    <AudioVisualizerShader audio={audio} />
     <AudioVisualizer />
     <PlaneTexture />
   </group>

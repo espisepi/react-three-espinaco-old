@@ -3,19 +3,7 @@ import * as THREE from 'three';
 import { useLoader, useFrame } from 'react-three-fiber';
 import { PlaneShaderParams, CubeShaderParams } from './shaders/AudioShaders';
 
-const AudioVisualizerShader = ({audioSrc, img}) => {
-    audioSrc = audioSrc || 'assets/highkili-imtheman.mp3';
-    img = img || 'assets/highkili.png';  
-
-    const audioBuffer = useLoader(THREE.AudioLoader, audioSrc);
-    const audioListener = useMemo(() => new THREE.AudioListener(),[]);
-    const audio = useMemo(() => new THREE.Audio(audioListener),[]);
-    useMemo(()=>{
-        audio.setBuffer(audioBuffer);
-        audio.setLoop(true);
-        audio.setVolume(0.5);
-        audio.play();
-    },[]);
+const AudioVisualizerShader = ({audio}) => {
     
     const fftSize = 2048;
     const analyser = useMemo(() => new THREE.AudioAnalyser(audio, fftSize),[]);
