@@ -51,7 +51,7 @@ const GroupComponent = () => {
    <>
   <group ref={group} visible={true}>
     <AudioVisualizerShader audio={audio} />
-    <AudioVisualizer />
+    <AudioVisualizer audio={audio} />
     <PlaneTexture />
   </group>
   </>

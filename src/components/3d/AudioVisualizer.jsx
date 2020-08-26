@@ -2,8 +2,7 @@ import React, { useRef, useEffect, useMemo } from 'react';
 import * as THREE from 'three';
 import { useLoader, useFrame } from 'react-three-fiber';
 
-const AudioVisualizer = ({audioSrc, mesh, img}) => {
-    audioSrc = audioSrc || 'assets/highkili-imtheman.mp3';
+const AudioVisualizer = ({audio, mesh, img}) => {
     img = img || 'assets/highkili.png';
 
     const texture = new THREE.TextureLoader().load(img);
@@ -13,22 +12,6 @@ const AudioVisualizer = ({audioSrc, mesh, img}) => {
     );
     mesh.position.set(7, 1.5, -7);
     mesh.rotation.y += -1.0;
-    
-
-    const audioBuffer = useLoader(THREE.AudioLoader, audioSrc);
-    const audioListener = new THREE.AudioListener();
-    const audio = new THREE.Audio(audioListener);
-    audio.setBuffer(audioBuffer);
-    audio.setLoop(true);
-    audio.setVolume(0.5);
-
-    /* 
-        Usamos el useMemo para que solo se ejecute el audio.play() una vez
-        y no cada vez que se re-renderize el componente.
-    */
-    useMemo(()=>{
-        audio.play();
-    },[]);
 
     const fftSize = 2048;
     const frequencyRange = {
