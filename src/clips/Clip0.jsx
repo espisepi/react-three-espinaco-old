@@ -30,7 +30,25 @@ const Loading = () => {
       );
 }
 
+const GroupComponent = () => {
+  const group = useRef();
+  useFrame(({clock})=>{
+    if(!group.current.visible && clock.elapsedTime >= 39.0) group.current.visible = true;
+  });
+ return(
+   <>
+  <group ref={group} visible={false}>
+    <AudioVisualizerShader />
+    <AudioVisualizer />
+    <PlaneTexture />
+  </group>
+  </>
+  );
+  
+}
+
 const Clip0 = () => {
+ 
     return(
       <Canvas style={{width:"100%", height:"100vh"}}>
         <RecoilRoot>
@@ -43,11 +61,7 @@ const Clip0 = () => {
                 <Stars />
                 <Sprite url='assets/foto.png' position={[0,1.5,0]} scale={[5, 3, 1]} />
                 <Plane position={[0,-0.1,0]}/>
-                <group>
-                  <AudioVisualizerShader />
-                  <AudioVisualizer />
-                  <PlaneTexture />
-                </group>
+                <GroupComponent />
             </Suspense>
             {/* <CameraControlsCustom /> */}
             <DragControls dragY={false}/>
