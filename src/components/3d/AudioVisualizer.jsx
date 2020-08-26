@@ -49,11 +49,8 @@ const AudioVisualizer = ({audio, mesh, img}) => {
         
     });
 
-    const group = useRef();
-    useEffect(()=>{group.current.add(mesh)});
     return (
-        <group ref={group}>
-        </group>
+        <primitive object={mesh} />
     );
 };
 
