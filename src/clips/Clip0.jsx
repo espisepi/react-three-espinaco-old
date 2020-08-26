@@ -33,8 +33,8 @@ const Loading = () => {
 
 const GroupComponent = () => {
   const group = useRef();
-  useFrame(({clock})=>{
-    if(!group.current.visible && clock.elapsedTime >= 39.0) group.current.visible = true;
+  useFrame(()=>{
+    if(!group.current.visible && audio.context.currentTime >= 39.0) group.current.visible = true;
   });
 
   const audioSrc = 'assets/highkili-imtheman.mp3';
@@ -49,7 +49,7 @@ const GroupComponent = () => {
   },[]);
  return(
    <>
-  <group ref={group} visible={true}>
+  <group ref={group} visible={false}>
     <AudioVisualizerShader audio={audio} />
     <AudioVisualizer audio={audio} />
     <PlaneTexture />
