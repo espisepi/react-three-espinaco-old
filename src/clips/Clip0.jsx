@@ -1,5 +1,5 @@
 import React, { Suspense, useRef, useEffect, useMemo, useState } from 'react';
-import { Canvas, useFrame, useLoader } from 'react-three-fiber';
+import { Canvas, useFrame, useLoader, useThree } from 'react-three-fiber';
 import { RecoilRoot } from 'recoil';
 import Camera01 from '../components/cameras/Camera01';
 import OrbitControlsCustom from '../components/controls/OrbitControlsCustom';
@@ -14,6 +14,7 @@ import CameraControlsCustom from '../components/controls/CameraControlsCustom';
 import AudioVisualizerShader from '../components/3d/AudioVisualizerShader';
 import PlaneTexture from '../components/3d/PlaneTexture';
 import * as THREE from 'three';
+import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 
 const Loading = () => {
     return (
@@ -50,6 +51,7 @@ const GroupComponent = () => {
  return(
    <>
   <group ref={group} visible={false}>
+    <FireCustom />
     <AudioVisualizerShader audio={audio} />
     <AudioVisualizer audio={audio} />
     <PlaneTexture />
@@ -57,6 +59,45 @@ const GroupComponent = () => {
   </>
   );
   
+}
+
+/* Para que la animacion funciona hay que comentar el componente DragControls */
+const CameraAnimation = ()=> {
+  const {camera} = useThree();
+  const from = { y: camera.rotation.y };
+  const to = { y: 2.8 };
+  const to2 = { y: -1.0 };
+  const to3 = { y: 0 };
+  const update = () => {
+    camera.rotation.set(0, from.y, 0);
+  };
+  const tween1 = new TWEEN.Tween(from)
+      .to(to, 16000)
+      .delay(11000)
+      .easing(TWEEN.Easing.Linear.None)
+      .onUpdate(update)
+      .onComplete(function () {}
+  );
+  const tween2 = new TWEEN.Tween(from)
+    .to(to2, 6000)
+    .easing(TWEEN.Easing.Linear.None)
+    .onUpdate(update)
+    .onComplete(function () {}
+  );
+  const tween3 = new TWEEN.Tween(from)
+    .to(to3, 3000)
+    .easing(TWEEN.Easing.Linear.None)
+    .onUpdate(update)
+    .onComplete(function () {}
+  );
+
+  tween1.chain(tween2);
+  tween2.chain(tween3);
+  tween1.start();
+  useFrame(()=>{
+    TWEEN.update();
+  });
+  return null;
 }
 
 const Clip0 = () => {
@@ -69,14 +110,15 @@ const Clip0 = () => {
             <Camera01 position={[0, 1.5, 8]} />
             <Suspense fallback={<Loading />}>
                 <Ocean />
-                <FireCustom />
                 <Stars />
                 <Sprite url='assets/foto.png' position={[0,1.5,0]} scale={[5, 3, 1]} />
                 <Plane position={[0,-0.1,0]}/>
                 <GroupComponent />
+                <CameraAnimation />
             </Suspense>
+            
             {/* <CameraControlsCustom /> */}
-            <DragControls dragY={false}/>
+            {/* <DragControls dragY={false}/> */}
         </RecoilRoot>
       </Canvas>
     );
