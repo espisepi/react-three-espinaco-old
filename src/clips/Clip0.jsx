@@ -65,21 +65,21 @@ const GroupComponent = () => {
 const CameraAnimation = ()=> {
   const {camera} = useThree();
   const from = { y: camera.rotation.y };
-  const to = { y: 2.8 };
+  const to = { y: 2.0 };
   const to2 = { y: -1.0 };
   const to3 = { y: 0 };
   const update = () => {
     camera.rotation.set(0, from.y, 0);
   };
   const tween1 = new TWEEN.Tween(from)
-      .to(to, 16000)
+      .to(to, 12000)
       .delay(11000)
       .easing(TWEEN.Easing.Linear.None)
       .onUpdate(update)
       .onComplete(function () {}
   );
   const tween2 = new TWEEN.Tween(from)
-    .to(to2, 6000)
+    .to(to2, 10000)
     .easing(TWEEN.Easing.Linear.None)
     .onUpdate(update)
     .onComplete(function () {}
