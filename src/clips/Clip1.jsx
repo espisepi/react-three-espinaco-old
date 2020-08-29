@@ -6,7 +6,8 @@ import Stars from '../components/3d/Stars';
 import DragControls from '../components/controls/DragControls';
 import CameraControlsCustom from '../components/controls/CameraControlsCustom';
 import CubePanoramic from '../components/3d/CubePanoramic';
-import MathsDraw from '../components/3d/MathsDraw'
+import MathsDraw from '../components/3d/MathsDraw';
+import MeshDrawLine from '../components/3d/MeshDrawLine';
 
 const Loading = () => {
     return (
@@ -33,8 +34,9 @@ const Clip1 = () => {
             <Camera01 position={[0, 1.5, 8]} />
             <Suspense fallback={<Loading />}>
                 <Stars />
-                <MathsDraw />
+                {/* <MathsDraw /> */}
                 <CubePanoramic />
+                <MeshDrawLine url='assets/LeePerrySmith/LeePerrySmith.glb' velocity={10} />
             </Suspense>
             <CameraControlsCustom />
             {/* <DragControls dragY={false}/> */}
