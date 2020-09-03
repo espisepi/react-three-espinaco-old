@@ -9,11 +9,8 @@ const FireCustom = ({position, rotation}) => {
     position = position || new THREE.Vector3(0,0,0);
     rotation = rotation || new THREE.Euler(1,1,1);
     useEffect(()=>{
-        fire.current.position.set(0.2,1.4,0.1);
-        fire.current.rotation.set(0.5,-0.05,0);
-        // fire.current.position.set(0,2.05,0.1);
-        // fire.current.position.set(position.x,position.y,position.z);
-        // fire.current.material.side = THREE.DoubleSide;
+        fire.current.position.set(...position);
+        fire.current.rotation.set(...rotation);
     });
     useEffect(()=>{
         // fire.current.clearSources();
