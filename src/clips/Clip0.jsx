@@ -15,6 +15,7 @@ import AudioVisualizerShader from '../components/3d/AudioVisualizerShader';
 import PlaneTexture from '../components/3d/PlaneTexture';
 import * as THREE from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
+import { Stats } from 'drei';
 
 const Loading = () => {
     return (
@@ -50,8 +51,8 @@ const GroupComponent = () => {
   },[]);
  return(
    <>
-  <group ref={group} visible={false}>
-    <FireCustom />
+  <group ref={group} visible={true}>
+    <FireCustom position={[0.2,0.8,-0.5]} rotation={[0.0,0.0,0.0]}/>
     <AudioVisualizerShader audio={audio} />
     <AudioVisualizer audio={audio} />
     <PlaneTexture />
@@ -114,11 +115,12 @@ const Clip0 = () => {
                 <Sprite url='assets/foto.png' position={[0,1.5,0]} scale={[5, 3, 1]} />
                 <Plane position={[0,-0.1,0]}/>
                 <GroupComponent />
-                <CameraAnimation />
+                {/* <CameraAnimation /> */}
             </Suspense>
             
             {/* <CameraControlsCustom /> */}
             {/* <DragControls dragY={false}/> */}
+            <Stats />
         </RecoilRoot>
       </Canvas>
     );

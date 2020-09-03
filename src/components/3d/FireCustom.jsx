@@ -16,7 +16,7 @@ const FireCustom = ({position, rotation}) => {
         // fire.current.clearSources();
 		// fire.current.addSource( 0.5, 0.1, 0.1, 1.0, 0.0, 1.0 );
         // console.log(fire.current);
-        var text = "<~>";
+        var text = "<~~~~~~~~~~~~~>";
         var size = 140;
         var color = "#FF0040";
         var canvas = document.createElement( "canvas" );
@@ -44,7 +44,7 @@ const FireCustom = ({position, rotation}) => {
     });
     return (
         <fire ref={fire} args={[
-            new THREE.PlaneBufferGeometry( 1, 1 ),
+            new THREE.PlaneBufferGeometry( 4, 4.0 ),
             {
                 textureWidth: 512,
                 textureHeight: 512,
