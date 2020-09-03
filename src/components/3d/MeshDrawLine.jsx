@@ -19,10 +19,12 @@ const MeshDrawLine = ({url, velocity}) => {
     mesh.geometry.attributes.position.needsUpdate = true;
     let contador = 0;
     useFrame(()=>{
-        mesh.geometry.attributes.position.array = gltfPositionArray.slice(0,contador);
-        if(contador < gltfPositionArray.length) contador += velocity;
-        mesh.geometry.computeVertexNormals();
-        mesh.geometry.computeFaceNormals();
+        if(mesh){
+            mesh.geometry.attributes.position.array = gltfPositionArray.slice(0,contador);
+            if(contador < gltfPositionArray.length) contador += velocity;
+            mesh.geometry.computeVertexNormals();
+            mesh.geometry.computeFaceNormals();
+        }
     })
     
     return <primitive object={mesh} dispose={null} />
