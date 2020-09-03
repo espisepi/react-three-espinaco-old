@@ -51,7 +51,7 @@ const GroupComponent = () => {
   },[]);
  return(
    <>
-  <group ref={group} visible={true}>
+  <group ref={group} visible={false}>
     <FireCustom position={[0.2,0.8,-0.5]} rotation={[0.0,0.0,0.0]}/>
     <AudioVisualizerShader audio={audio} />
     <AudioVisualizer audio={audio} />
@@ -115,12 +115,12 @@ const Clip0 = () => {
                 <Sprite url='assets/foto.png' position={[0,1.5,0]} scale={[5, 3, 1]} />
                 <Plane position={[0,-0.1,0]}/>
                 <GroupComponent />
-                {/* <CameraAnimation /> */}
+                <CameraAnimation />
             </Suspense>
             
             {/* <CameraControlsCustom /> */}
             {/* <DragControls dragY={false}/> */}
-            <Stats />
+            {/* <Stats /> */}
         </RecoilRoot>
       </Canvas>
     );
