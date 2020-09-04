@@ -1,24 +1,22 @@
 
 import React, { useRef, useEffect, useMemo } from 'react';
 import * as THREE from 'three';
-import { useLoader, useFrame } from 'react-three-fiber';
+import { useLoader, useFrame, useThree } from 'react-three-fiber';
 
 
 
 const WebcamPoints = ({audio, mesh, img}) => {
     img = img || 'assets/highkili.png';
+    const {scene} = useThree();
 
-    // const video = getVideo();
+    let particles;
+    let video;
     const getVideo = async () =>{
-        const video = await initVideo();
-        const image = getImageData(video);
-        console.log(image);
-        
-        return null;
-
+        video = await initVideo();
+        // const image = getImageData(video);
+        // console.log(image);
     };
-    const video = getVideo();
-    
+    getVideo();
 
 
     const texture = new THREE.TextureLoader().load(img);
@@ -40,6 +38,59 @@ const WebcamPoints = ({audio, mesh, img}) => {
     const analyser = new THREE.AudioAnalyser(audio, fftSize);
 
     useFrame(({clock})=>{
+        if(video && !particles){
+            console.log('yaaa')
+            console.log(video)
+            particles = createParticles(video);
+            particles.scale.set(0.05,0.05,0.05)
+            scene.add(particles);
+        }
+        if(particles && analyser){
+            const data = analyser.getFrequencyData();
+            const bass = getFrequencyRangeValue(data, frequencyRange.bass);
+            const mid = getFrequencyRangeValue(data, frequencyRange.mid);
+            const treble = getFrequencyRangeValue(data, frequencyRange.treble);
+            const r = bass;
+            const g = mid;
+            const b = treble;
+            console.log(bass)
+
+            particles.material.color.r = 1 - r;
+            particles.material.color.g = 1 - g;
+            particles.material.color.b = 1 - b;
+
+            const density = 2;
+            // const useCache = parseInt(t) % 2 === 0;  // To reduce CPU usage.
+            const imageData = getImageData(video);
+            for (let i = 0, length = particles.geometry.vertices.length; i < length; i++) {
+                const particle = particles.geometry.vertices[i];
+                if (i % density !== 0) {
+                    particle.z = 10000;
+                    continue;
+                }
+                let index = i * 4;
+                let gray = (imageData.data[index] + imageData.data[index + 1] + imageData.data[index + 2]) / 3;
+                let threshold = 300;
+                if (gray < threshold) {
+                    if (gray < threshold / 3) {
+                        particle.z = gray * r * 5;
+                        //particle.z = 0;
+
+                    } else if (gray < threshold / 2) {
+                        particle.z = gray * g * 5;
+                        //particle.z = 0;
+
+                    } else {
+                        particle.z = gray * b * 5;
+                        //particle.z = 0;
+                    }
+                } else {
+                    particle.z = 10000;
+                }
+            }
+            particles.geometry.verticesNeedUpdate = true;
+
+        }
         const data = analyser.getFrequencyData();
         const bass = getFrequencyRangeValue(frequencyRange.bass, data);
         // const mid = getFrequencyRangeValue(frequencyRange.mid, data);
@@ -70,22 +121,30 @@ const WebcamPoints = ({audio, mesh, img}) => {
     );
 };
 
-// function getImageData(image) {
-//     if(image){
-//         const canvas = document.createElement("CANVAS");
-//         canvas.width = image.width;
-//         canvas.height = image.height;
-//         const ctx = canvas.getContext("2d");
-//         ctx.translate(canvas.width, 0);
-//         ctx.scale(-1, 1);
+function createParticles(video){
+    const imageData = getImageData(video);
+    const geometry = new THREE.Geometry();
+    geometry.morphAttributes = {};  // This is necessary to avoid error.
+    const material = new THREE.PointsMaterial({
+        size: 1,
+        color: 0xff3b6c,
+        sizeAttenuation: false
+    });
 
-//         ctx.drawImage(image, 0, 0);
-//         return ctx.getImageData(0, 0, canvas.width, canvas.height);
-//         return null;
-//     }else{
-//         return null;
-//     }
-// }
+    for (let y = 0, height = imageData.height; y < height; y += 1) {
+        for (let x = 0, width = imageData.width; x < width; x += 1) {
+            const vertex = new THREE.Vector3(
+                x - imageData.width / 2,
+                -y + imageData.height / 2,
+                0
+            );
+            geometry.vertices.push(vertex);
+        }
+    }
+
+    const particles = new THREE.Points(geometry, material);
+    return particles;
+}
 
 function initVideo() {
     return new Promise(resolve => {

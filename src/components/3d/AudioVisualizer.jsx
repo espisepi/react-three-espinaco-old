@@ -28,7 +28,6 @@ const AudioVisualizer = ({audio, mesh, img}) => {
         const bass = getFrequencyRangeValue(frequencyRange.bass, data);
         // const mid = getFrequencyRangeValue(frequencyRange.mid, data);
         // const treble = getFrequencyRangeValue(frequencyRange.treble, data);
-
         const arrayPosition = mesh.geometry.attributes.position.array;
         for(let i = 0; i < arrayPosition.length; i = i + 3 ){
             if( i % 2 ){
