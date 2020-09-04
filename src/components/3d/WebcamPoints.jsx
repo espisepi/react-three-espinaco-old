@@ -3,35 +3,7 @@ import React, { useRef, useEffect, useMemo } from 'react';
 import * as THREE from 'three';
 import { useLoader, useFrame } from 'react-three-fiber';
 
-function initVideo() {
-    return new Promise(resolve => {
-        const video = document.createElement("video");
-        video.autoplay = true;
 
-        const option = {
-            video: true,
-            audio: false
-        };
-        navigator.mediaDevices.getUserMedia(option)
-            .then((stream) => {
-                video.srcObject = stream;
-                video.addEventListener("loadeddata", () => {
-                    // videoWidth = video.videoWidth;
-                    // videoHeight = video.videoHeight;
-                    resolve(video);
-                    // createParticles();
-                });
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-        });
-  }
-
-// async function getVideo() {
-//     const video = await initVideo();
-//     return video;
-// }
 
 const WebcamPoints = ({audio, mesh, img}) => {
     img = img || 'assets/highkili.png';
@@ -39,27 +11,13 @@ const WebcamPoints = ({audio, mesh, img}) => {
     // const video = getVideo();
     const getVideo = async () =>{
         const video = await initVideo();
-        console.log(video.videoWidth);
-        const canvas = document.createElement('CANVAS');
-        const ctx = canvas.getContext('2d');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        ctx.translate(canvas.width, 0);
-        ctx.scale(-1, 1);
-
-        ctx.drawImage(video, 0, 0);
-        const imageCache = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        console.log(imageCache);
+        const image = getImageData(video);
+        console.log(image);
+        
         return null;
 
     };
     const video = getVideo();
-    // console.log(video)
-    // const canvas = document.createElement('CANVAS');
-    // const context = canvas.getContext('2d');
-
-    // canvas.width = video.videoWith;
-    // canvas.height = video.height;
     
 
 
@@ -112,21 +70,59 @@ const WebcamPoints = ({audio, mesh, img}) => {
     );
 };
 
-function getImageData(image) {
-    if(image){
-        const canvas = document.createElement("CANVAS");
-        canvas.width = image.width;
-        canvas.height = image.height;
-        const ctx = canvas.getContext("2d");
-        ctx.translate(canvas.width, 0);
-        ctx.scale(-1, 1);
+// function getImageData(image) {
+//     if(image){
+//         const canvas = document.createElement("CANVAS");
+//         canvas.width = image.width;
+//         canvas.height = image.height;
+//         const ctx = canvas.getContext("2d");
+//         ctx.translate(canvas.width, 0);
+//         ctx.scale(-1, 1);
 
-        ctx.drawImage(image, 0, 0);
-        return ctx.getImageData(0, 0, canvas.width, canvas.height);
-        return null;
-    }else{
-        return null;
-    }
+//         ctx.drawImage(image, 0, 0);
+//         return ctx.getImageData(0, 0, canvas.width, canvas.height);
+//         return null;
+//     }else{
+//         return null;
+//     }
+// }
+
+function initVideo() {
+    return new Promise(resolve => {
+        const video = document.createElement("video");
+        video.autoplay = true;
+
+        const option = {
+            video: true,
+            audio: false
+        };
+        navigator.mediaDevices.getUserMedia(option)
+            .then((stream) => {
+                video.srcObject = stream;
+                video.addEventListener("loadeddata", () => {
+                    // videoWidth = video.videoWidth;
+                    // videoHeight = video.videoHeight;
+                    resolve(video);
+                    // createParticles();
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        });
+  }
+
+function getImageData(video) {
+    const canvas = document.createElement('CANVAS');
+    const ctx = canvas.getContext('2d');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    ctx.translate(canvas.width, 0);
+    ctx.scale(-1, 1);
+
+    ctx.drawImage(video, 0, 0);
+    const imageCache = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    return imageCache;
 }
 
 function getFrequencyRangeValue (_frequencyRange, frequencyData) {
