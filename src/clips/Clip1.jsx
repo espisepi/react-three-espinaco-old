@@ -1,5 +1,5 @@
 import React, { Suspense, useRef, useEffect, useMemo, useState } from 'react';
-import { Canvas } from 'react-three-fiber';
+import { Canvas, useLoader } from 'react-three-fiber';
 import { RecoilRoot } from 'recoil';
 import Camera01 from '../components/cameras/Camera01';
 import Stars from '../components/3d/Stars';
@@ -8,6 +8,8 @@ import CameraControlsCustom from '../components/controls/CameraControlsCustom';
 import CubePanoramic from '../components/3d/CubePanoramic';
 import MathsDraw from '../components/3d/MathsDraw';
 import MeshDrawLine from '../components/3d/MeshDrawLine';
+import WebcamPoints from '../components/3d/WebcamPoints';
+import * as THREE from 'three';
 
 const Loading = () => {
     return (
@@ -25,6 +27,25 @@ const Loading = () => {
       );
 }
 
+const AudioComponents = () => {
+  const audioSrc = 'assets/highkili-imtheman.mp3';
+  const audioBuffer = useLoader(THREE.AudioLoader, audioSrc);
+  const audioListener = useMemo(() => new THREE.AudioListener(),[]);
+  const audio = useMemo(() => new THREE.Audio(audioListener),[]);
+  useMemo(()=>{
+      audio.setBuffer(audioBuffer);
+      audio.setLoop(true);
+      audio.setVolume(0.5);
+      audio.play();
+  },[]);
+ return(
+   <>
+    <WebcamPoints audio={audio}/>
+  </>
+  );
+  
+}
+
 const Clip1 = () => {
     return(
       <Canvas style={{width:"100%", height:"100vh"}}>
@@ -36,7 +57,10 @@ const Clip1 = () => {
                 <Stars />
                 {/* <MathsDraw /> */}
                 <CubePanoramic />
-                <MeshDrawLine url='assets/LeePerrySmith/LeePerrySmith.glb' velocity={10} />
+                <MeshDrawLine url='assets/LeePerrySmith/LeePerrySmith.glb' velocity={10} />                
+            </Suspense>
+            <Suspense fallback={<Loading />}>
+              <AudioComponents />
             </Suspense>
             <CameraControlsCustom />
             {/* <DragControls dragY={false}/> */}
