@@ -28,7 +28,7 @@ const Loading = () => {
 }
 
 const AudioComponents = () => {
-  const audioSrc = 'assets/highkili-imtheman.mp3';
+  const audioSrc = 'assets/musica/070shake.mp3';
   const audioBuffer = useLoader(THREE.AudioLoader, audioSrc);
   const audioListener = useMemo(() => new THREE.AudioListener(),[]);
   const audio = useMemo(() => new THREE.Audio(audioListener),[]);
@@ -56,8 +56,8 @@ const Clip1 = () => {
             <Suspense fallback={<Loading />}>
                 <Stars />
                 {/* <MathsDraw /> */}
-                <CubePanoramic />
-                <MeshDrawLine url='assets/LeePerrySmith/LeePerrySmith.glb' velocity={10} />                
+                {/* <CubePanoramic /> */}
+                {/* <MeshDrawLine url='assets/LeePerrySmith/LeePerrySmith.glb' velocity={10} />                 */}
             </Suspense>
             <Suspense fallback={<Loading />}>
               <AudioComponents />

@@ -29,7 +29,7 @@ const WebcamPoints = ({audio, mesh, img}) => {
     const analyser = new THREE.AudioAnalyser(audio, fftSize);
 
     useFrame(({clock})=>{
-        if(video && !particles){
+        if(video && video.readyState === 4 && !particles){
             console.log('yaaa')
             console.log(video)
             particles = createParticles(video);
@@ -42,9 +42,10 @@ const WebcamPoints = ({audio, mesh, img}) => {
             bass = getFrequencyRangeValue(frequencyRange.bass, data);
             const mid = getFrequencyRangeValue(data, frequencyRange.mid);
             const treble = getFrequencyRangeValue(data, frequencyRange.treble);
-            const r = bass;
+            const r = bass - 0.3;
             const g = mid;
             const b = treble;
+            console.log(treble)
 
             particles.material.color.r = 1 - r;
             particles.material.color.g = 1 - g;
@@ -119,24 +120,35 @@ function initVideo() {
     return new Promise(resolve => {
         const video = document.createElement("video");
         video.autoplay = true;
+        video.muted = true;
 
         const option = {
             video: true,
             audio: false
         };
-        navigator.mediaDevices.getUserMedia(option)
-            .then((stream) => {
-                video.srcObject = stream;
-                video.addEventListener("loadeddata", () => {
-                    // videoWidth = video.videoWidth;
-                    // videoHeight = video.videoHeight;
-                    resolve(video);
-                    // createParticles();
+        if(true){
+            const src = 'assets/musica/070shake.mp4';
+            video.src = src;
+            video.load();
+            video.play();
+            resolve(video);
+        }else{
+            
+
+            navigator.mediaDevices.getUserMedia(option)
+                .then((stream) => {
+                    video.srcObject = stream;
+                    video.addEventListener("loadeddata", () => {
+                        // videoWidth = video.videoWidth;
+                        // videoHeight = video.videoHeight;
+                        resolve(video);
+                        // createParticles();
+                    });
+                })
+                .catch((error) => {
+                    console.log(error);
                 });
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+            }
         });
   }
 
