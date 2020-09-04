@@ -18,15 +18,6 @@ const WebcamPoints = ({audio, mesh, img}) => {
     };
     getVideo();
 
-
-    const texture = new THREE.TextureLoader().load(img);
-    mesh = mesh || new THREE.Mesh(
-        new THREE.PlaneBufferGeometry( 3, 3, 100, 100 ),
-        new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, map: texture })
-    );
-    mesh.position.set(7, 1.5, -7);
-    mesh.rotation.y += -1.0;
-
     const fftSize = 2048;
     const frequencyRange = {
         bass: [20, 140],
@@ -45,15 +36,15 @@ const WebcamPoints = ({audio, mesh, img}) => {
             particles.scale.set(0.05,0.05,0.05)
             scene.add(particles);
         }
+        let bass;
         if(particles && analyser){
             const data = analyser.getFrequencyData();
-            const bass = getFrequencyRangeValue(data, frequencyRange.bass);
+            bass = getFrequencyRangeValue(frequencyRange.bass, data);
             const mid = getFrequencyRangeValue(data, frequencyRange.mid);
             const treble = getFrequencyRangeValue(data, frequencyRange.treble);
             const r = bass;
             const g = mid;
             const b = treble;
-            console.log(bass)
 
             particles.material.color.r = 1 - r;
             particles.material.color.g = 1 - g;
@@ -91,33 +82,11 @@ const WebcamPoints = ({audio, mesh, img}) => {
             particles.geometry.verticesNeedUpdate = true;
 
         }
-        const data = analyser.getFrequencyData();
-        const bass = getFrequencyRangeValue(frequencyRange.bass, data);
-        // const mid = getFrequencyRangeValue(frequencyRange.mid, data);
-        // const treble = getFrequencyRangeValue(frequencyRange.treble, data);
-
-        const arrayPosition = mesh.geometry.attributes.position.array;
-        for(let i = 0; i < arrayPosition.length; i = i + 3 ){
-            if( i % 2 ){
-                arrayPosition[i + 2] = bass + 0.1;
-            }else{
-                // arrayPosition[i + 2] = mid * 1.5;
-            }
-        }
-
-        /*
-            Codigo necesario para poder mover los vertices del mesh
-        */
-        mesh.geometry.attributes.position.needsUpdate = true;
-        mesh.geometry.computeVertexNormals();
-        mesh.geometry.computeFaceNormals();
-
-        mesh.rotation.y = Math.sin(clock.elapsedTime/5) - 0.5 ;
         
     });
 
     return (
-        <primitive object={mesh} />
+        null
     );
 };
 
@@ -196,7 +165,7 @@ function getFrequencyRangeValue (_frequencyRange, frequencyData) {
         total += data[i];
         numFrequencies += 1;
     }
-    
+
     return total / numFrequencies / 255;
 };
 
