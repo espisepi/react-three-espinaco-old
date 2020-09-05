@@ -40,16 +40,16 @@ const WebcamPoints = ({audio, mesh, img}) => {
         if(particles && analyser){
             const data = analyser.getFrequencyData();
             bass = getFrequencyRangeValue(frequencyRange.bass, data);
-            const mid = getFrequencyRangeValue(data, frequencyRange.mid);
-            const treble = getFrequencyRangeValue(data, frequencyRange.treble);
-            const r = bass - 0.3;
-            const g = mid;
-            const b = treble;
-            console.log(treble)
+            const mid = getFrequencyRangeValue(frequencyRange.mid, data);
+            const treble = getFrequencyRangeValue(frequencyRange.treble, data);
+            const r = -bass;
+            const g = 0.1 ;
+            const b = 85 ;
+            console.log( 'bass ' + bass + ' / mid ' + mid + ' / treble ' + treble)
 
-            particles.material.color.r = 1 - r;
-            particles.material.color.g = 1 - g;
-            particles.material.color.b = 1 - b;
+            particles.material.color.r = bass + 0.7 ;
+            particles.material.color.g = 0  ;
+            particles.material.color.b = 0 ;
 
             const density = 2;
             // const useCache = parseInt(t) % 2 === 0;  // To reduce CPU usage.
@@ -57,12 +57,13 @@ const WebcamPoints = ({audio, mesh, img}) => {
             for (let i = 0, length = particles.geometry.vertices.length; i < length; i++) {
                 const particle = particles.geometry.vertices[i];
                 if (i % density !== 0) {
-                    particle.z = 10000;
+                    // particle.z = 10000;
                     continue;
                 }
                 let index = i * 4;
                 let gray = (imageData.data[index] + imageData.data[index + 1] + imageData.data[index + 2]) / 3;
                 let threshold = 300;
+  
                 if (gray < threshold) {
                     if (gray < threshold / 3) {
                         particle.z = gray * r * 5;
@@ -77,7 +78,7 @@ const WebcamPoints = ({audio, mesh, img}) => {
                         //particle.z = 0;
                     }
                 } else {
-                    particle.z = 10000;
+                    // particle.z = 10000;
                 }
             }
             particles.geometry.verticesNeedUpdate = true;
@@ -128,7 +129,8 @@ function initVideo() {
         };
         if(true){
             // const src = 'assets/musica/070shake.mp4';
-            const src = 'http://164.90.215.243:5000/download?URL=https://www.youtube.com/watch?v=fYwRsJAPfec&ab_channel=COLORS';
+            const url = 'https://www.youtube.com/watch?v=CIbM-TLQiX4&list=PLbF25hg0V3wDZtHBc3OXtHLLnLDseleFB&index=277&ab_channel=CoccoLxxv';
+            const src = 'http://164.90.215.243:5000/download?URL=' + url;
             // fetch('http://localhost:5000/download').then((response)=>{
             //     // console.log(response)
             //     response.json().then((json)=>{
