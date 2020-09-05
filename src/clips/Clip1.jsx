@@ -28,7 +28,7 @@ const Loading = () => {
 }
 
 const AudioComponents = () => {
-  const audioSrc = 'assets/musica/070shake.mp3';
+  const audioSrc = 'http://164.90.215.243:5000/download?URL=https://www.youtube.com/watch?v=fYwRsJAPfec&ab_channel=COLORS';
   const audioBuffer = useLoader(THREE.AudioLoader, audioSrc);
   const audioListener = useMemo(() => new THREE.AudioListener(),[]);
   const audio = useMemo(() => new THREE.Audio(audioListener),[]);

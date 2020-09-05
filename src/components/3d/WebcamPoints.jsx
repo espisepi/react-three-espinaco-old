@@ -127,11 +127,27 @@ function initVideo() {
             audio: false
         };
         if(true){
-            const src = 'assets/musica/070shake.mp4';
+            // const src = 'assets/musica/070shake.mp4';
+            const src = 'http://164.90.215.243:5000/download?URL=https://www.youtube.com/watch?v=fYwRsJAPfec&ab_channel=COLORS';
+            // fetch('http://localhost:5000/download').then((response)=>{
+            //     // console.log(response)
+            //     response.json().then((json)=>{
+            //         console.log('hola' + json);
+            //     })
+            //     video.src = src;
+            //     video.load();
+            //     video.play();
+            //     resolve(video);
+            //     // return response.json()
+            // });
+
             video.src = src;
+            console.log(video)
+            video.crossOrigin = 'Anonymous';
             video.load();
             video.play();
             resolve(video);
+            
         }else{
             
 
