@@ -27,6 +27,17 @@ const WebcamPoints = ({audio, mesh, img}) => {
         treble: [5200, 14000],
     };
     const analyser = new THREE.AudioAnalyser(audio, fftSize);
+    const configuration = `
+        r = bass + 0.5;
+        g = treble;
+        b = mid;
+        color.r = bass;
+        color.g = mid;
+        color.b = mid
+        distance = 10;
+    `;
+    const configurationArray = configuration.split("\n");
+    console.log(configurationArray);
 
     useFrame(({clock})=>{
         if(video && video.readyState === 4 && !particles){
@@ -38,18 +49,23 @@ const WebcamPoints = ({audio, mesh, img}) => {
         }
         let bass;
         if(particles && analyser){
+
             const data = analyser.getFrequencyData();
             bass = getFrequencyRangeValue(frequencyRange.bass, data);
             const mid = getFrequencyRangeValue(frequencyRange.mid, data);
             const treble = getFrequencyRangeValue(frequencyRange.treble, data);
-            const r = -bass;
-            const g = 0.1 ;
-            const b = 85 ;
-            console.log( 'bass ' + bass + ' / mid ' + mid + ' / treble ' + treble)
+            // console.log( 'bass ' + bass + ' / mid ' + mid + ' / treble ' + treble)
 
-            particles.material.color.r = bass + 0.7 ;
-            particles.material.color.g = 0  ;
-            particles.material.color.b = 0 ;
+            let r,g,b;
+            eval(configurationArray[1]); // r = loquesea
+            eval(configurationArray[2]); // g = loquesea
+            eval(configurationArray[3]); // b = loquesea
+            eval('particles.material.'+configurationArray[4]); // color.r = loquesea
+            eval('particles.material.'+configurationArray[5]); // color.g = loquesea
+            eval('particles.material.'+configurationArray[6]); // color.b = loquesea
+
+            let distance;
+            eval(configurationArray[7]); // distance = loquesea
 
             const density = 2;
             // const useCache = parseInt(t) % 2 === 0;  // To reduce CPU usage.
@@ -66,15 +82,15 @@ const WebcamPoints = ({audio, mesh, img}) => {
   
                 if (gray < threshold) {
                     if (gray < threshold / 3) {
-                        particle.z = gray * r * 5;
+                        particle.z = gray * r * distance;
                         //particle.z = 0;
 
                     } else if (gray < threshold / 2) {
-                        particle.z = gray * g * 5;
+                        particle.z = gray * g * distance;
                         //particle.z = 0;
 
                     } else {
-                        particle.z = gray * b * 5;
+                        particle.z = gray * b * distance;
                         //particle.z = 0;
                     }
                 } else {
