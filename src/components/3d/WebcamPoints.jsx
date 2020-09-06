@@ -3,16 +3,36 @@ import React, { useRef, useEffect, useMemo } from 'react';
 import * as THREE from 'three';
 import { useLoader, useFrame, useThree } from 'react-three-fiber';
 
-
-
-const WebcamPoints = ({audio, mesh, img}) => {
-    img = img || 'assets/highkili.png';
+/** Arguments explanation delujaso
+ * audio: THREE.audio
+ * video: string => 'https://www.youtube.com/watch?v=CIb...' || 'assets/...mp4' || '' (webcam)
+ * configuration: string => 
+ *                              const configuration = `
+                                    r = bass + 0.5;
+                                    g = treble;
+                                    b = mid;
+                                    color.r = bass;
+                                    color.g = mid;
+                                    color.b = mid
+                                    distance = 2;
+                                `; 
+ */
+const WebcamPoints = ({ audio, videoSrc, configuration }) => {
+    videoSrc = videoSrc || '';
+    configuration = configuration || `
+                                                r = bass + 0.5;
+                                                g = treble;
+                                                b = mid;
+                                                color.r = bass;
+                                                color.g = mid;
+                                                color.b = mid
+                                                distance = 2;                
+                                            `;
     const {scene} = useThree();
-
     let particles;
     let video;
     const getVideo = async () =>{
-        video = await initVideo();
+        video = await initVideo(videoSrc);
         // const image = getImageData(video);
         // console.log(image);
     };
@@ -27,22 +47,12 @@ const WebcamPoints = ({audio, mesh, img}) => {
         treble: [5200, 14000],
     };
     const analyser = new THREE.AudioAnalyser(audio, fftSize);
-    const configuration = `
-        r = bass + 0.5;
-        g = treble;
-        b = mid;
-        color.r = bass;
-        color.g = mid;
-        color.b = mid
-        distance = 10;
-    `;
+    
     const configurationArray = configuration.split("\n");
     console.log(configurationArray);
 
     useFrame(({clock})=>{
         if(video && video.readyState === 4 && !particles){
-            console.log('yaaa')
-            console.log(video)
             particles = createParticles(video);
             particles.scale.set(0.05,0.05,0.05)
             scene.add(particles);
@@ -83,15 +93,10 @@ const WebcamPoints = ({audio, mesh, img}) => {
                 if (gray < threshold) {
                     if (gray < threshold / 3) {
                         particle.z = gray * r * distance;
-                        //particle.z = 0;
-
                     } else if (gray < threshold / 2) {
                         particle.z = gray * g * distance;
-                        //particle.z = 0;
-
                     } else {
                         particle.z = gray * b * distance;
-                        //particle.z = 0;
                     }
                 } else {
                     // particle.z = 10000;
@@ -133,42 +138,30 @@ function createParticles(video){
     return particles;
 }
 
-function initVideo() {
+function initVideo(url, webcam) {
     return new Promise(resolve => {
         const video = document.createElement("video");
         video.autoplay = true;
         video.muted = true;
 
-        const option = {
-            video: true,
-            audio: false
-        };
-        if(true){
+        if(url && url.includes("www.youtube.com")){
             // const src = 'assets/musica/070shake.mp4';
-            const url = 'https://www.youtube.com/watch?v=CIbM-TLQiX4&list=PLbF25hg0V3wDZtHBc3OXtHLLnLDseleFB&index=277&ab_channel=CoccoLxxv';
             const src = 'http://164.90.215.243:5000/download?URL=' + url;
-            // fetch('http://localhost:5000/download').then((response)=>{
-            //     // console.log(response)
-            //     response.json().then((json)=>{
-            //         console.log('hola' + json);
-            //     })
-            //     video.src = src;
-            //     video.load();
-            //     video.play();
-            //     resolve(video);
-            //     // return response.json()
-            // });
-
             video.src = src;
-            console.log(video)
             video.crossOrigin = 'Anonymous';
             video.load();
             video.play();
+            resolve(video);        
+        }else if(url && url.includes("assets")){
+            video.src = url;
+            video.load();
+            video.play();
             resolve(video);
-            
-        }else{
-            
-
+        } else{
+            const option = {
+                video: true,
+                audio: false
+            };
             navigator.mediaDevices.getUserMedia(option)
                 .then((stream) => {
                     video.srcObject = stream;

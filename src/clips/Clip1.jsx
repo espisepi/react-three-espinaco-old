@@ -33,6 +33,18 @@ const AudioComponents = () => {
   const audioBuffer = useLoader(THREE.AudioLoader, audioSrc);
   const audioListener = useMemo(() => new THREE.AudioListener(),[]);
   const audio = useMemo(() => new THREE.Audio(audioListener),[]);
+
+  const videoSrc = 'https://www.youtube.com/watch?v=CIbM-TLQiX4&list=PLbF25hg0V3wDZtHBc3OXtHLLnLDseleFB&index=277&ab_channel=CoccoLxxv';
+  const configuration = `
+        r = bass + 0.5;
+        g = treble;
+        b = mid;
+        color.r = bass;
+        color.g = mid;
+        color.b = mid
+        distance = 2;
+    `;
+
   useMemo(()=>{
       audio.setBuffer(audioBuffer);
       audio.setLoop(true);
@@ -41,7 +53,7 @@ const AudioComponents = () => {
   },[]);
  return(
    <>
-    <WebcamPoints audio={audio}/>
+    <WebcamPoints audio={audio} videoSrc={videoSrc} configuration={configuration} />
   </>
   );
   
