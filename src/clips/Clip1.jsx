@@ -28,22 +28,24 @@ const Loading = () => {
 }
 
 const AudioComponents = () => {
-  const url = 'https://www.youtube.com/watch?v=CIbM-TLQiX4&list=PLbF25hg0V3wDZtHBc3OXtHLLnLDseleFB&index=277&ab_channel=CoccoLxxv';
-  const audioSrc = 'http://164.90.215.243:5000/download?URL=' + url;
-  const audioBuffer = useLoader(THREE.AudioLoader, audioSrc);
-  const audioListener = useMemo(() => new THREE.AudioListener(),[]);
-  const audio = useMemo(() => new THREE.Audio(audioListener),[]);
-
-  const videoSrc = 'https://www.youtube.com/watch?v=CIbM-TLQiX4&list=PLbF25hg0V3wDZtHBc3OXtHLLnLDseleFB&index=277&ab_channel=CoccoLxxv';
+  let audioSrc = 'https://www.youtube.com/watch?v=uJNcscaZ3bk&list=PLbF25hg0V3wBCMH8pvbGOUw5fxp0pbrLA&index=94&ab_channel=MELODOWNZ';
+  const videoSrc = 'https://www.youtube.com/watch?v=uJNcscaZ3bk&list=PLbF25hg0V3wBCMH8pvbGOUw5fxp0pbrLA&index=94&ab_channel=MELODOWNZ';
   const configuration = `
         r = bass + 0.5;
-        g = treble;
-        b = mid;
+        g = bass;
+        b = bass;
         color.r = bass;
         color.g = mid;
         color.b = mid
         distance = 2;
     `;
+
+  if(audioSrc.includes("www.youtube.com")){
+    audioSrc = 'http://164.90.215.243:5000/download?URL=' + audioSrc; // Tengo que tener levantada esa maquina en DigitalOcean
+  }
+  const audioBuffer = useLoader(THREE.AudioLoader, audioSrc);
+  const audioListener = useMemo(() => new THREE.AudioListener(),[]);
+  const audio = useMemo(() => new THREE.Audio(audioListener),[]);
 
   useMemo(()=>{
       audio.setBuffer(audioBuffer);

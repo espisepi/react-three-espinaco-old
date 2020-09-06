@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useMemo } from 'react';
 import * as THREE from 'three';
 import { useLoader, useFrame, useThree } from 'react-three-fiber';
 
-/** Arguments explanation delujaso
+/** Arguments explanation:
  * audio: THREE.audio
  * video: string => 'https://www.youtube.com/watch?v=CIb...' || 'assets/...mp4' || '' (webcam)
  * configuration: string => 
