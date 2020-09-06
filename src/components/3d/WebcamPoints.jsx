@@ -77,15 +77,17 @@ const WebcamPoints = ({ audio, videoSrc, configuration }) => {
             eval('particles.material.'+configurationArray[6]); // color.b = loquesea
             let distance;
             eval(configurationArray[7]); // distance = loquesea
+            let density;
+            eval(configurationArray[8]);
 
-            const density = 2;
+            // const density = 2;
             // const useCache = parseInt(t) % 2 === 0;  // To reduce CPU usage.
             const imageData = getImageData(video);
             for (let i = 0, length = particles.geometry.vertices.length; i < length; i++) {
                 const particle = particles.geometry.vertices[i];
-                if (i % density !== 0) {
+                if (density && i % density !== 0) {
                     // particle.z = 10000;
-                    continue;
+                     continue;
                 }
                 let index = i * 4;
                 let gray = (imageData.data[index] + imageData.data[index + 1] + imageData.data[index + 2]) / 3;

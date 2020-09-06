@@ -37,7 +37,8 @@ const AudioComponents = () => {
         color.r = bass;
         color.g = mid;
         color.b = mid
-        distance = 2;
+        distance = 1;
+        density = 1;
     `;
 
   if(audioSrc.includes("www.youtube.com")){
