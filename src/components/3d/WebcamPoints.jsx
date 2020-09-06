@@ -78,7 +78,7 @@ const WebcamPoints = ({ audio, videoSrc, configuration }) => {
             let distance;
             eval(configurationArray[7]); // distance = loquesea
             let density;
-            eval(configurationArray[8]);
+            eval(configurationArray[8]); // density = loquesea
 
             // const density = 2;
             // const useCache = parseInt(t) % 2 === 0;  // To reduce CPU usage.
