@@ -45,10 +45,13 @@ const WebcamPoints = ({ audio, videoSrc, configuration }) => {
         highMid: [2600, 5200],
         treble: [5200, 14000],
     };
-    const analyser = new THREE.AudioAnalyser(audio, fftSize);
+
+    let analyser;
+    if(audio){
+        analyser = new THREE.AudioAnalyser(audio, fftSize);
+    }
     
     const configurationArray = configuration.split("\n");
-    console.log(configurationArray);
 
     useFrame(({clock})=>{
         if(video && video.readyState === 4 && !particles){
@@ -56,14 +59,15 @@ const WebcamPoints = ({ audio, videoSrc, configuration }) => {
             particles.scale.set(0.05,0.05,0.05)
             scene.add(particles);
         }
-        if(particles && analyser){
-
-            const data = analyser.getFrequencyData();
-            const bass = getFrequencyRangeValue(frequencyRange.bass, data);
-            const mid = getFrequencyRangeValue(frequencyRange.mid, data);
-            const treble = getFrequencyRangeValue(frequencyRange.treble, data);
+        let data, bass, mid, treble;
+        if(analyser){
+            data = analyser.getFrequencyData();
+            bass = getFrequencyRangeValue(frequencyRange.bass, data);
+            mid = getFrequencyRangeValue(frequencyRange.mid, data);
+            treble = getFrequencyRangeValue(frequencyRange.treble, data);
             // console.log( 'bass ' + bass + ' / mid ' + mid + ' / treble ' + treble)
-
+        }
+        if(particles){
             let r,g,b;
             eval(configurationArray[1]); // r = loquesea
             eval(configurationArray[2]); // g = loquesea
