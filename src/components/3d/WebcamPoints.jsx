@@ -29,12 +29,11 @@ const WebcamPoints = ({ audio, videoSrc, configuration }) => {
                                                 distance = 2;                
                                             `;
     const {scene} = useThree();
-    let particles;
+    let particles; // Iniciamos las particulas cuando el video se ha cargado
     let video;
+
     const getVideo = async () =>{
         video = await initVideo(videoSrc);
-        // const image = getImageData(video);
-        // console.log(image);
     };
     getVideo();
 
@@ -57,11 +56,10 @@ const WebcamPoints = ({ audio, videoSrc, configuration }) => {
             particles.scale.set(0.05,0.05,0.05)
             scene.add(particles);
         }
-        let bass;
         if(particles && analyser){
 
             const data = analyser.getFrequencyData();
-            bass = getFrequencyRangeValue(frequencyRange.bass, data);
+            const bass = getFrequencyRangeValue(frequencyRange.bass, data);
             const mid = getFrequencyRangeValue(frequencyRange.mid, data);
             const treble = getFrequencyRangeValue(frequencyRange.treble, data);
             // console.log( 'bass ' + bass + ' / mid ' + mid + ' / treble ' + treble)
@@ -73,7 +71,6 @@ const WebcamPoints = ({ audio, videoSrc, configuration }) => {
             eval('particles.material.'+configurationArray[4]); // color.r = loquesea
             eval('particles.material.'+configurationArray[5]); // color.g = loquesea
             eval('particles.material.'+configurationArray[6]); // color.b = loquesea
-
             let distance;
             eval(configurationArray[7]); // distance = loquesea
 
