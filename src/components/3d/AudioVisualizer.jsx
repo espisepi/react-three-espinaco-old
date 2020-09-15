@@ -11,7 +11,7 @@ const AudioVisualizer = ({audio, mesh, img, position}) => {
         new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, map: texture })
     );
     mesh.position.set(...position);
-    mesh.rotation.y += -1.0;
+    // mesh.rotation.y += -1.0;
 
     const fftSize = 2048;
     const frequencyRange = {
@@ -44,7 +44,7 @@ const AudioVisualizer = ({audio, mesh, img, position}) => {
         mesh.geometry.computeVertexNormals();
         mesh.geometry.computeFaceNormals();
 
-        mesh.rotation.y = Math.sin(clock.elapsedTime/5) - 0.5 ;
+        mesh.rotation.y = Math.sin(clock.elapsedTime/5)  ;
         
     });
 

@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import Clip0 from '../clips/Clip0';
+import Clip0Espinaco from '../clips/Clip0Espinaco';
 
 
 const Home = () => {
@@ -20,7 +21,7 @@ const Home = () => {
       <button ref={boton} onClick={loadClip} style={{zIndex:5, display:'block', position:'relative', top:'50vh', left:'50%'}}>Click me!</button>
       <div style={{width:"100%", height:"100vh", display:'block'}}>
       {state.showComponent ?
-           <Clip0 /> :
+           <Clip0Espinaco /> :
            null
         }
       </div>

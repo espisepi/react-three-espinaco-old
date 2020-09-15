@@ -16,7 +16,6 @@ import PlaneTexture from '../components/3d/PlaneTexture';
 import * as THREE from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import { Stats } from 'drei';
-import { MulticolorShader } from '../components/3d/shaders/TextureShaders';
 
 const Loading = () => {
     return (
@@ -50,27 +49,13 @@ const GroupComponent = () => {
       audio.setVolume(0.5);
       audio.play();
   },[]);
-
-  const {vertexShader,fragmentShader,uniforms} = MulticolorShader();
-  const mesh = new THREE.Mesh(
-     new THREE.PlaneBufferGeometry(3, 3, 100, 100),
-     new THREE.ShaderMaterial({
-       vertexShader,
-       fragmentShader,
-       uniforms
-     })
-  );
-  mesh.material.transparent = true;
-  useFrame(({clock})=>{
-    uniforms.time.value = clock.elapsedTime ;
-  })
  return(
    <>
   <group ref={group} visible={false}>
-    {/* <FireCustom position={[0.2,0.8,-0.5]} rotation={[0.0,0.0,0.0]}/> */}
+    <FireCustom position={[0.2,0.8,-0.5]} rotation={[0.0,0.0,0.0]}/>
     <AudioVisualizerShader audio={audio} />
-    <AudioVisualizer audio={audio} position={[0, 1.5, 0]} mesh={mesh} />
-    {/* <PlaneTexture /> */}
+    <AudioVisualizer audio={audio} position={[7, 1.5, -7]}/>
+    <PlaneTexture />
   </group>
   </>
   );
@@ -116,7 +101,7 @@ const CameraAnimation = ()=> {
   return null;
 }
 
-const Clip0 = () => {
+const Clip0Espinaco = () => {
  
     return(
       <Canvas style={{width:"100%", height:"100vh"}}>
@@ -127,7 +112,7 @@ const Clip0 = () => {
             <Suspense fallback={<Loading />}>
                 <Ocean />
                 <Stars />
-                {/* <Sprite url='assets/foto.png' position={[0,1.5,0]} scale={[5, 3, 1]} /> */}
+                <Sprite url='assets/foto.png' position={[0,1.5,0]} scale={[5, 3, 1]} />
                 <Plane position={[0,-0.1,0]}/>
                 <GroupComponent />
                 <CameraAnimation />
@@ -141,4 +126,4 @@ const Clip0 = () => {
     );
   };
 
-  export default Clip0;
+  export default Clip0Espinaco;
