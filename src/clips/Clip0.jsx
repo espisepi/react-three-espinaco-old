@@ -54,7 +54,7 @@ const GroupComponent = () => {
   <group ref={group} visible={false}>
     <FireCustom position={[0.2,0.8,-0.5]} rotation={[0.0,0.0,0.0]}/>
     <AudioVisualizerShader audio={audio} />
-    <AudioVisualizer audio={audio} />
+    <AudioVisualizer audio={audio} position={[7, 1.5, -7]}/>
     <PlaneTexture />
   </group>
   </>

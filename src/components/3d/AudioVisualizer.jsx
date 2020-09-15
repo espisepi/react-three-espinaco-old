@@ -2,15 +2,15 @@ import React, { useRef, useEffect, useMemo } from 'react';
 import * as THREE from 'three';
 import { useLoader, useFrame } from 'react-three-fiber';
 
-const AudioVisualizer = ({audio, mesh, img}) => {
+const AudioVisualizer = ({audio, mesh, img, position}) => {
     img = img || 'assets/highkili.png';
-
+    position = position || [ 0, 0, 0 ]
     const texture = new THREE.TextureLoader().load(img);
     mesh = mesh || new THREE.Mesh(
         new THREE.PlaneBufferGeometry( 3, 3, 100, 100 ),
         new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, map: texture })
     );
-    mesh.position.set(7, 1.5, -7);
+    mesh.position.set(...position);
     mesh.rotation.y += -1.0;
 
     const fftSize = 2048;
