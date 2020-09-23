@@ -68,7 +68,6 @@ const WebcamPoints = ({ audio, videoSrc, configuration }) => {
             // console.log( 'bass ' + bass + ' / mid ' + mid + ' / treble ' + treble)
         }
         if(particles){
-            particles.material.uniforms.iTime.value = clock.elapsedTime;
             let r,g,b;
             eval(configurationArray[1]); // r = loquesea
             eval(configurationArray[2]); // g = loquesea
@@ -80,6 +79,11 @@ const WebcamPoints = ({ audio, videoSrc, configuration }) => {
             eval(configurationArray[7]); // distance = loquesea
             let density;
             eval(configurationArray[8]); // density = loquesea
+
+            particles.material.uniforms.iTime.value = clock.elapsedTime;
+            particles.material.uniforms.bass.value = bass;
+            particles.material.uniforms.bass.mid = mid;
+            particles.material.uniforms.bass.treble = treble;
 
             // const density = 2;
             // const useCache = parseInt(t) % 2 === 0;  // To reduce CPU usage.
@@ -126,6 +130,10 @@ function createParticles(video){
         uniforms: {
             iTime: { value: 0 },
             iResolution:  { value: new THREE.Vector3(1, 1, 1) },
+
+            bass: { value: 0.0 },
+            mid: { value: 0.0 },
+            treble: { value: 0.0 },
         },
         vertexShader: `
 
@@ -144,10 +152,14 @@ function createParticles(video){
         fragmentShader: `
         uniform vec3 iResolution;
         uniform float iTime;
+
+        uniform float bass;
+        uniform float mid;
+        uniform float treble;
     
         void main() {
             
-            gl_FragColor = vec4( sin(iTime),0.0,0.0, 1.0 );
+            gl_FragColor = vec4( bass+0.6,0.0,0.0, 1.0 );
 
 
         }
