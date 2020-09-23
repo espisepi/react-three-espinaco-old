@@ -28,8 +28,8 @@ const Loading = () => {
 }
 
 const AudioComponents = () => {
-  let audioSrc = 'https://www.youtube.com/watch?v=uJNcscaZ3bk&list=PLbF25hg0V3wBCMH8pvbGOUw5fxp0pbrLA&index=94&ab_channel=MELODOWNZ';
-  const videoSrc = 'https://www.youtube.com/watch?v=uJNcscaZ3bk&list=PLbF25hg0V3wBCMH8pvbGOUw5fxp0pbrLA&index=94&ab_channel=MELODOWNZ';
+  let audioSrc = 'https://www.youtube.com/watch?v=RpgUS0nxlNo&ab_channel=ElaneMeta';
+  const videoSrc = 'https://www.youtube.com/watch?v=RpgUS0nxlNo&ab_channel=ElaneMeta';
   const configuration = `
         r = bass + 0.5;
         g = bass;

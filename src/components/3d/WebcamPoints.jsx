@@ -68,13 +68,14 @@ const WebcamPoints = ({ audio, videoSrc, configuration }) => {
             // console.log( 'bass ' + bass + ' / mid ' + mid + ' / treble ' + treble)
         }
         if(particles){
+            particles.material.uniforms.iTime.value = clock.elapsedTime;
             let r,g,b;
             eval(configurationArray[1]); // r = loquesea
             eval(configurationArray[2]); // g = loquesea
             eval(configurationArray[3]); // b = loquesea
-            eval('particles.material.'+configurationArray[4]); // color.r = loquesea
-            eval('particles.material.'+configurationArray[5]); // color.g = loquesea
-            eval('particles.material.'+configurationArray[6]); // color.b = loquesea
+            // eval('particles.material.'+configurationArray[4]); // color.r = loquesea
+            // eval('particles.material.'+configurationArray[5]); // color.g = loquesea
+            // eval('particles.material.'+configurationArray[6]); // color.b = loquesea
             let distance;
             eval(configurationArray[7]); // distance = loquesea
             let density;
@@ -120,10 +121,37 @@ function createParticles(video){
     const imageData = getImageData(video);
     const geometry = new THREE.Geometry();
     geometry.morphAttributes = {};  // This is necessary to avoid error.
-    const material = new THREE.PointsMaterial({
-        size: 1,
-        color: 0xff3b6c,
-        sizeAttenuation: false
+
+    const material = new THREE.ShaderMaterial({
+        uniforms: {
+            iTime: { value: 0 },
+            iResolution:  { value: new THREE.Vector3(1, 1, 1) },
+        },
+        vertexShader: `
+
+        varying vec2 vUv;
+
+			void main() {
+                vUv = uv;
+				vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+                float size = 1.0;
+				gl_PointSize = size ;
+
+				gl_Position = projectionMatrix * mvPosition;
+
+			}
+        `,
+        fragmentShader: `
+        uniform vec3 iResolution;
+        uniform float iTime;
+    
+        void main() {
+            
+            gl_FragColor = vec4( sin(iTime),0.0,0.0, 1.0 );
+
+
+        }
+        `
     });
 
     for (let y = 0, height = imageData.height; y < height; y += 1) {
