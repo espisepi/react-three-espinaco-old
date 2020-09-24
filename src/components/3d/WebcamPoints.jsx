@@ -176,6 +176,9 @@ function createParticles(video){
         vec3 colorB = vec3(1.0,0.0,0.0);
 
         void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+            
+            vec2 uv = fragCoord.xy / iResolution.xy;
+            uv.x *= iResolution.x / iResolution.y;
 
             vec3 color = vec3(bass+0.6,0.0,0.0);
             //vec3 color = mix(colorA,colorB,bass+0.3);
