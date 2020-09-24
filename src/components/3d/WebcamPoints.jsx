@@ -139,9 +139,16 @@ function createParticles(video){
 
         varying vec2 vUv;
 
+        uniform float iTime;
+
 			void main() {
                 vUv = uv;
-				vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+
+                vec3 pos = position;
+                pos += 0.0;
+
+
+				vec4 mvPosition = modelViewMatrix * vec4( pos, 1.0 );
                 float size = 1.0;
 				gl_PointSize = size ;
 
@@ -156,10 +163,16 @@ function createParticles(video){
         uniform float bass;
         uniform float mid;
         uniform float treble;
+
+        vec3 colorA = vec3(0.3,0.0,0.0);
+        vec3 colorB = vec3(1.0,0.0,0.0);
     
         void main() {
+
+            vec3 color = vec3(bass+0.6,0.0,0.0);
+            //vec3 color = mix(colorA,colorB,bass+0.3);
             
-            gl_FragColor = vec4( bass+0.6,0.0,0.0, 1.0 );
+            gl_FragColor = vec4( color, 1.0 );
 
 
         }
