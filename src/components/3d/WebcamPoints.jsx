@@ -126,6 +126,8 @@ function createParticles(video){
     const geometry = new THREE.Geometry();
     geometry.morphAttributes = {};  // This is necessary to avoid error.
 
+    const texture0 = new THREE.Texture(imageData);
+
     const material = new THREE.ShaderMaterial({
         uniforms: {
             iTime: { value: 0 },
@@ -134,6 +136,8 @@ function createParticles(video){
             bass: { value: 0.0 },
             mid: { value: 0.0 },
             treble: { value: 0.0 },
+
+            iChannel0: { value: texture0 }
         },
         vertexShader: `
 
@@ -157,6 +161,10 @@ function createParticles(video){
 			}
         `,
         fragmentShader: `
+        #include <common>
+
+        varying vec2 vUv;
+
         uniform vec3 iResolution;
         uniform float iTime;
 
@@ -166,15 +174,18 @@ function createParticles(video){
 
         vec3 colorA = vec3(0.3,0.0,0.0);
         vec3 colorB = vec3(1.0,0.0,0.0);
-    
-        void main() {
+
+        void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
             vec3 color = vec3(bass+0.6,0.0,0.0);
             //vec3 color = mix(colorA,colorB,bass+0.3);
             
-            gl_FragColor = vec4( color, 1.0 );
+            fragColor = vec4( color, 1.0 );
 
 
+        }
+        void main() {
+            mainImage(gl_FragColor, vUv * iResolution.xy);
         }
         `
     });
