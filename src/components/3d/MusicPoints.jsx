@@ -54,10 +54,14 @@ const MusicPoints = ({ audio, videoSrc, configuration }) => {
     const configurationArray = configuration.split("\n");
 
     useFrame(({clock})=>{
-        if(video && video.readyState === 4 && !particles){
+        if(video && video.readyState === 4 && !particles ){
             particles = createParticles(video);
             particles.scale.set(0.05,0.05,0.05)
             scene.add(particles);
+            
+            const particlesClone = particles.clone();
+            particlesClone.applyMatrix(new THREE.Matrix4().makeScale(-1, 1, 1));
+            scene.add(particlesClone);
         }
         let data, bass, mid, treble;
         if(analyser && particles){
